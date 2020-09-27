@@ -10,6 +10,10 @@ use Mix.Config
 config :sns,
   ecto_repos: [Sns.Repo]
 
+config :sns, Sns.Guardian,
+    issuer: "sns",
+    secret_key: "T1apLIv4RGNIr4DiOBHu+XWpeWhi0JRtz30uUsX5+4YaXCAfHPLiMEuEd6IKifsj"
+
 # Configures the endpoint
 config :sns, SnsWeb.Endpoint,
   url: [host: "localhost"],

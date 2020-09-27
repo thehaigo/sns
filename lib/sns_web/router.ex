@@ -1,6 +1,7 @@
 defmodule SnsWeb.Router do
   use SnsWeb, :router
-
+  alias SnsWeb.ApiAuthPipeline
+  alias SnsWeb.AuthHelper
   import SnsWeb.UserAuth
 
   pipeline :browser do
@@ -13,8 +14,27 @@ defmodule SnsWeb.Router do
     plug :fetch_current_user
   end
 
+  pipeline :jwt_authenticated do
+    plug ApiAuthPipeline
+    plug AuthHelper
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
+  end
+
+  scope "/api/v1", SnsWeb do
+    pipe_through :api
+
+    post "/sign_up", Api.V1.UserController, :create
+    post "/sign_in", Api.V1.UserController, :sign_in
+  end
+
+  scope "/api/v1", SnsWeb do
+    pipe_through [:api, :jwt_authenticated]
+
+    get "/mypage", Api.V1.UserController, :show
+    resources "/posts", Api.V1.PostController, except: [:new, :edit]
   end
 
   scope "/", SnsWeb do

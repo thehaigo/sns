@@ -9,6 +9,7 @@ defmodule Sns.Users.User do
     field :hashed_password, :string
     field :confirmed_at, :naive_datetime
 
+    has_many :posts, Sns.Posts.Post
     timestamps()
   end
 
