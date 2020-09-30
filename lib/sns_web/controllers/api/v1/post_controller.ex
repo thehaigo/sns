@@ -12,7 +12,7 @@ defmodule SnsWeb.Api.V1.PostController do
   end
 
   def create(conn, %{"post" => post_params}) do
-    with {:ok, %Post{} = post} <- Posts.create_post(
+    with {:ok, %Post{} = post} <- Posts.create_post_with_image(
       Map.put(post_params, "user_id", conn.user_id)
     ) do
       conn

@@ -1,7 +1,7 @@
 defmodule SnsWeb.Api.V1.PostView do
   use SnsWeb, :view
   alias SnsWeb.Api.V1.PostView
-
+  alias SnsWeb.Api.V1.ImageView
   def render("index.json", %{posts: posts}) do
     %{data: render_many(posts, PostView, "post.json")}
   end
@@ -11,7 +11,10 @@ defmodule SnsWeb.Api.V1.PostView do
   end
 
   def render("post.json", %{post: post}) do
-    %{id: post.id,
-      body: post.body}
+    %{
+      id: post.id,
+      body: post.body,
+      images: render_many(post.images, ImageView, "image.json")
+    }
   end
 end

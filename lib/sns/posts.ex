@@ -18,7 +18,9 @@ defmodule Sns.Posts do
 
   """
   def list_posts do
-    Repo.all(Post)
+    Post
+    |> preload(:images)
+    |> Repo.all()
   end
 
   @doc """
@@ -35,7 +37,11 @@ defmodule Sns.Posts do
       ** (Ecto.NoResultsError)
 
   """
-  def get_post!(id), do: Repo.get!(Post, id)
+  def get_post!(id) do
+    Post
+    |> preload(:images)
+    |> Repo.get!(id)
+  end
 
   @doc """
   Creates a post.
@@ -55,6 +61,14 @@ defmodule Sns.Posts do
     |> Repo.insert()
   end
 
+  def create_post_with_image(attrs \\ %{}) do
+    with { :ok,  %Post{} = post } <- create_post(attrs) do
+      post
+      |> Repo.preload([:images])
+      |> Post.changeset_with_image(attrs)
+      |> Repo.update()
+    end
+  end
   @doc """
   Updates a post.
 

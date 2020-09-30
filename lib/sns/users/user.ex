@@ -10,6 +10,7 @@ defmodule Sns.Users.User do
     field :confirmed_at, :naive_datetime
 
     has_many :posts, Sns.Posts.Post
+    has_many :images, Sns.Images.Image
     timestamps()
   end
 

@@ -35,6 +35,7 @@ defmodule SnsWeb.Router do
 
     get "/mypage", Api.V1.UserController, :show
     resources "/posts", Api.V1.PostController, except: [:new, :edit]
+    resources "/images", Api.V1.ImageController, except: [:new, :edit]
   end
 
   scope "/", SnsWeb do
