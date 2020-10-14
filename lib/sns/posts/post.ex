@@ -7,6 +7,11 @@ defmodule Sns.Posts.Post do
 
     belongs_to :user, Sns.Users.User
     has_many :images, Sns.Images.Image
+    many_to_many :tags,
+                 Sns.Tags.Tag,
+                 join_through: "tags_posts",
+                 on_replace: :delete,
+                 on_delete: :delete_all
     timestamps()
   end
 

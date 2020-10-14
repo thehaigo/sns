@@ -34,8 +34,10 @@ defmodule SnsWeb.Router do
     pipe_through [:api, :jwt_authenticated]
 
     get "/mypage", Api.V1.UserController, :show
+    post "/posts/add_tag", Api.V1.PostController, :add_tag
     resources "/posts", Api.V1.PostController, except: [:new, :edit]
     resources "/images", Api.V1.ImageController, except: [:new, :edit]
+    resources "/tags", Api.V1.TagController, except: [:new, :edit]
   end
 
   scope "/", SnsWeb do

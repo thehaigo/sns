@@ -35,6 +35,14 @@ defmodule SnsWeb.Api.V1.PostController do
     end
   end
 
+  def add_tag(conn, %{"id" => id, "tags" => params}) do
+    post = Posts.get_post_with_tags!(id)
+
+    with {:ok, %Post{} = post} <- Posts.add_tag(post, params) do
+      render(conn, "tags.json", post: post)
+    end
+  end
+
   def delete(conn, %{"id" => id}) do
     post = Posts.get_post!(id)
 

@@ -40,9 +40,15 @@ defmodule Sns.Posts do
   def get_post!(id) do
     Post
     |> preload(:images)
+    |> preload(:tags)
     |> Repo.get!(id)
   end
 
+  def get_post_with_tags!(id) do
+    Post
+    |> preload(:tags)
+    |> Repo.get!(id)
+  end
   @doc """
   Creates a post.
 
@@ -68,6 +74,13 @@ defmodule Sns.Posts do
       |> Post.changeset_with_image(attrs)
       |> Repo.update()
     end
+  end
+
+  def add_tag(%Post{} = post, ids) do
+    post
+    |> Ecto.Changeset.change
+    |> Ecto.Changeset.put_assoc(:tags, Sns.Tags.get_tags!(ids))
+    |> Repo.update()
   end
   @doc """
   Updates a post.
