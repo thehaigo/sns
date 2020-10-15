@@ -12,7 +12,9 @@ defmodule SnsWeb.Api.V1.TagController do
   end
 
   def create(conn, %{"tag" => tag_params}) do
-    with {:ok, %Tag{} = tag} <- Tags.create_tag(tag_params) do
+    with {:ok, %Tag{} = tag} <- Tags.create_tag(
+      Map.put(tag_params, "user_id", conn.user_id)
+    ) do
       conn
       |> put_status(:created)
       |> put_resp_header("location", Routes.tag_path(conn, :show, tag))
