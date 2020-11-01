@@ -21,7 +21,6 @@ defmodule SnsWeb.Api.V1.UserController do
 
   def sign_in(conn, %{"email" => email, "password" => password}) do
     with {:ok, token, _claims} <- Users.token_sign_in(email, password) do
-      IO.inspect(conn)
       conn |> render("jwt.json", token: token)
     end
   end
